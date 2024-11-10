@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Verdana, sans-serif;
+    background: linear-gradient(to bottom right, #1c1e4a, #74215d);
+    min-height: 100vh; /* Stellt sicher, dass es mindestens den Viewport abdeckt */
+    overflow-y: hidden; /* Verhindert horizontales Scrollen */
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    flex-direction: column; /* Ermöglicht vertikale Ausrichtung */
+    justify-content: flex-start; /* Startet den Inhalt oben im Header */
+    align-items: center; /* Zentriert die Überschrift und den Button horizontal */
+    padding-top: 20px; /* Fügt etwas Abstand von oben hinzu */
+}
+
+header h1 {
+    background-color: #2a2c6b;
+    padding: 10px;
+    margin-bottom: 40px; /* Abstand nach unten zur Überschrift */
+    border-radius: 8px;
+    color: #fff;
+    font-size: 36px; /* Vergrößert die Schrift */
+    text-align: center; /* Zentriert die Überschrift */
+    display: inline-block; /* Macht den Kasten nur so breit wie der Inhalt */
+    width: 50%; /* Setzt die Breite auf 50% des Containers */
+}
+
+/* Back Button */
+.back-button {
+    display: inline-block;
+    background-color: #2a2c6b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    border: 2px solid white;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.back-button:hover {
+    background-color: #74215d;
+}
+
+/* Größerer und zentrierter Button für Saison-Archiv */
+.archive-button {
+    display: inline-block;
+    background-color: #2a2c6b;
+    color: white;
+    padding: 20px 40px; /* Größere Polsterung für mehr Größe */
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 24px; /* Größere Schrift */
+    border: 2px solid white;
+    margin-top: 20px; /* Abstand zur Überschrift */
+}
+
+.archive-button:hover {
+    background-color: #74215d;
+}
+
+.image-container {
+    display: flex;
+    flex-wrap: wrap; /* Ermöglicht das Umbrechen der Bilder auf mehrere Zeilen */
+    justify-content: center; /* Zentriert die Bilder horizontal */
+    gap: 20px; /* Abstand zwischen den Bildern */
+    padding: 20px;
+}
+
+.image-container img {
+    width: calc(50% - 20px); /* Setzt die Breite auf 50% minus den Abstand */
+    height: auto; /* Bewahrt das Seitenverhältnis */
+    border-radius: 10px; /* Abgerundete Ecken für die Bilder */
+}

@@ -1,0 +1,188 @@
+html {
+    font-size: 16px; /* Basis-Schriftgröße für rem */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Verdana, sans-serif;
+    background: linear-gradient(to bottom right, #1c1e4a, #74215d);
+    min-height: 100vh; /* Stellt sicher, dass es mindestens den Viewport abdeckt */
+    overflow-y: hidden; /* Verhindert horizontales Scrollen */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*obere zeile buttons header*/
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw; /* Relative Breite */
+    height:8vh;
+    margin: 2vh 0; /* Abstand mit relativer Höhe */
+}
+
+header h1 {
+    background-color: #2a2c6b;
+    padding: 1vh 1vw; /* Innenabstand mit relativen Einheiten */
+    border-radius: 8px;
+    color: #fff;
+    font-size: 3rem; /* Schriftgröße bleibt stabil */
+    text-align: center;
+    width: 33%;
+    height:100%; /* Relativ zur Breite des Headers */
+}
+
+.back-button, .league-button {
+    background-color: #2a2c6b;
+    color: white;
+    padding: 1vh 2vw; /* Dynamisches Padding */
+    font-size: 1.5vw; /* Dynamische Schriftgröße */
+    border-radius: 8px;
+    text-decoration: none;
+    border: 2px solid white;
+}
+
+.back-button {
+    position: absolute; /* Fixiert den Button unabhängig vom Layout */
+    top: 2vh; /* Abstand vom oberen Rand */
+    left: 2vw; /* Abstand vom linken Rand */
+}
+
+.back-button:hover,.league-button:hover {
+    background-color: #74215d;
+}
+
+/* Linker Button (2. Liga) */
+.league-button.left {
+    order:-1;
+}
+
+/* Rechter Button (3. Liga) */
+.league-button.right {
+    order:1;
+}
+
+/*tabellen*/
+.tables-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Zentriert Tabellen vertikal im Container */
+    margin: 5vh;
+    padding: 10px;
+    height: 60vh; /* Container selbst ist 50% der Viewport-Höhe */
+    overflow: hidden; /* Verhindert, dass die Tabelle aus dem Container hinausläuft */
+}
+
+table {
+    width: 70%; /* Passt Breite an, um Raum für zwei Tabellen nebeneinander zu lassen */
+    border-collapse: collapse;
+    background-color: white;
+    table-layout: fixed;
+    height: 100%; /* Übernimmt die volle Höhe des Containers */
+    overflow-y: auto; /* Ermöglicht Scrollen innerhalb der Tabelle */
+}
+
+
+th, td {
+    padding: 5px;
+    border: 1px solid #000;
+    text-align: center;
+}
+
+thead {
+    background-color: #2a2c6b;
+}
+
+thead th {
+    background-color: #2a2c6b;
+    color: white; /* Setzt die Schriftfarbe auf weiß */
+}
+
+tbody td {
+    height: 20px; /* Höhe des weißen Kastens */
+    text-align: center;
+    font-style: italic;
+    color: #000000; /* Grau für den Platzhaltertext */
+}
+
+.match-table {
+    height: 100%; /* Stellt sicher, dass die Tabelle den verfügbaren Platz innerhalb des Containers nutzt */
+    overflow-y: auto; /* Aktiviert das vertikale Scrollen */
+    max-height: 60vh; /* Optional: Begrenzung der maximalen Höhe auf 60% der Viewport-Höhe */
+}
+
+
+/*sachen außen rum*/
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.arrow {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+}
+
+.submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 20px; /* Abstand zu den Tabellen, mit mehr Abstand nach oben */
+}
+
+.submit a {
+    background-color: #2a2c6b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    border: 2px solid white;
+}
+
+.submit a:hover {
+    background-color: #2a2c6b;
+}
+
+
+
+/*hintergrundfarben*/
+tbody tr {
+    background-color: transparent; /* Standard auf transparent */
+}
+
+tbody tr.green-row {
+    background-color: green !important; /* Wendet die grüne Farbe an, falls die Zeile die Klasse erhält */
+}
+
+.last-three td{
+    background-color: hsl(0, 100%, 65%); /* Roter Hintergrund */
+}
+
+.first-three td{
+    background-color: rgb(0, 202, 0);
+}
+
+.relegation td{
+    background-color: rgb(161, 246, 161);
+}
+
+.relegation-bottom td{
+    background-color: rgb(246, 162, 161);
+}
+
+.final-four td{
+    background-color: rgb(101, 145, 255);
+}

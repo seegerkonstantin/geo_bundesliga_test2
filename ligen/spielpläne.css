@@ -1,0 +1,142 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Verdana, sans-serif;
+    background: linear-gradient(to bottom right, #1c1e4a, #74215d);
+    min-height: 100vh; /* Stellt sicher, dass es mindestens den Viewport abdeckt */
+    overflow-y: hidden; /* Verhindert horizontales Scrollen */
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: center; /* Zentriert den gesamten Header-Inhalt */
+}
+
+header h1 {
+    background-color: #2a2c6b;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 36px; /* Vergrößert die Schrift */
+    text-align: center; /* Zentriert die Überschrift */
+    display: inline-block; /* Macht den Kasten nur so breit wie der Inhalt */
+    width: 50%; /* Setzt die Breite auf 50% des Containers */
+}
+
+/* Slideshow-Container */
+.slideshow-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    position: relative;
+}
+
+/* Pfeile */
+.arrow-left, .arrow-right {
+    font-size: 40px;
+    cursor: pointer;
+    color: white;
+    padding: 10px;
+    user-select: none;
+}
+
+/* Verhindere, dass die Tabelle durch Pfeile verschoben wird */
+.match-table {
+    flex-grow: 1;
+    text-align: center;
+}
+
+table {
+    width: 50%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    background-color: white; /* Setzt den Hintergrund der Tabelle auf weiß */
+    table-layout: fixed;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 6px; /* Weniger Padding für schmalere Zellen */
+    text-align: left;
+    overflow: hidden;
+}
+th {
+    background-color: #2f2f7f;
+    color: white;
+}
+/* Individuelle Spaltenbreite */
+th:first-child, td:first-child {
+    width: 25%; /* Spieler*in Blau */
+}
+th:nth-child(2), td:nth-child(2) {
+    width: 25%; /* Spieler*in Rot */
+}
+th:nth-child(3), td:nth-child(3) {
+    width: 20%; /* Match ID */
+}
+th:last-child, td:last-child {
+    width: 20%; /* Ergebnis */
+}
+
+.arrow {
+    font-size: 30px;
+    text-align: center;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Wenn man über ein Spiel hovert, ändert sich der Cursor in die Hand */
+td {
+    cursor: pointer;
+}
+
+tr:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Der Modal-Hintergrund (leicht transparent und über dem Inhalt) */
+.modal {
+    display: none; /* Standardmäßig versteckt */
+    position: fixed;
+    z-index: 1000; /* Setzt es im Vordergrund */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Halbtransparentes Schwarz */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal-Inhalt */
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+/* Schließen-Knopf (X) */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    cursor: pointer;
+    color: #000;
+}

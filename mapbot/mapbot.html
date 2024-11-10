@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Bot</title>
+    <link rel="stylesheet" href="mapbotStyle.css">
+    <style>
+        /* Back Button */
+        .back-button {
+            display: inline-block;
+            background-color: #2a2c6b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 16px;
+            border: 2px solid white;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #74215d;
+            color: white;
+        }
+        
+        .back-button:visited {
+            color: white;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            font-size: 18px;
+            color: #f0f3f7;
+        }
+
+        label {
+            font-weight: bold;
+            color: #f0f3f7;
+        }
+
+        #ergebnis {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #f0f3f7;
+            white-space: pre-line; /* Damit Zeilenumbrüche angezeigt werden */
+        }
+        .checkbox-container {
+            margin-top: 10px;
+        }
+
+        .anzahl-container {
+            margin-top: 10px;
+        }
+
+        .anzahl-eingabe {
+            margin-top: 5px;
+            font-size: 13px; 
+        }
+
+        .option-checkbox {
+            margin-right: 10px;
+            transform: scale(1.5); /* Vergrößert die Checkbox um 1.5x */
+        }
+
+        a {
+            color: #f7e014; /* Standardfarbe für Links (Blau) */
+            text-decoration: none; /* Entfernt Unterstreichung */
+            text-decoration: underline;
+        }
+            
+        a:visited {
+            color: #f7e014; /* Farbe für besuchte Links (Tomatenrot) */
+        }    
+
+    </style>
+</head>
+<body>
+
+    <!-- Back button -->
+    <a class="back-button" href="../index.html">Start</a>
+
+    <!-- Header -->
+    <header>
+        <h1>MapBot</h1>
+    
+    <form id="auswahlForm">
+        <label>Wähle mindestens eine Option:</label>
+        <br>
+        <div id="checkboxContainer">
+            <input type="checkbox" class="option-checkbox" value="option1" id="option1" onclick="updateAnzahlInputs()"> World8<br>
+            <input type="checkbox" class="option-checkbox" value="option2" id="option2" onclick="updateAnzahlInputs()"> Worldall<br>
+            <input type="checkbox" class="option-checkbox" value="option3" id="option3" onclick="updateAnzahlInputs()"> Country Dach<br>
+            <input type="checkbox" class="option-checkbox" value="option4" id="option4" onclick="updateAnzahlInputs()"> Country8<br>
+            <input type="checkbox" class="option-checkbox" value="option5" id="option5" onclick="updateAnzahlInputs()"> Country31<br>
+            <input type="checkbox" class="option-checkbox" value="option6" id="option6" onclick="updateAnzahlInputs()"> Countryall<br>
+            <input type="checkbox" class="option-checkbox" value="option7" id="option7" onclick="updateAnzahlInputs()"> Dach<br>
+            <input type="checkbox" class="option-checkbox" value="option8" id="option8" onclick="updateAnzahlInputs()"> Deutschland<br>
+            <input type="checkbox" class="option-checkbox" value="option9" id="option9" onclick="updateAnzahlInputs()"> Österreich<br>
+            <input type="checkbox" class="option-checkbox" value="option10" id="option10" onclick="updateAnzahlInputs()"> Schweiz<br>
+        </div>
+    </form>
+
+    <div class="checkbox-container">
+        <input type="checkbox" id="extraErgebnis" name="extraErgebnis">
+        <label for="extraErgebnis">Modus</label>
+    </div>
+
+    <div id="anzahlContainer" class="anzahl-container"></div>
+
+    <button onclick="getRandomResult()">Maps ausgeben</button>
+
+    <div id="ergebnis"></div>
+
+    <script>
+        // Benutzerfreundliche Namen für die Optionen
+        const optionNamen = {
+            "option1": "World8",
+            "option2": "Worldall",
+            "option3": "Country Dach",
+            "option4": "Country8",
+            "option5": "Country31",
+            "option6": "Countryall",
+            "option7": "Dach",
+            "option8": "Deutschland",
+            "option9": "Österreich",
+            "option10": "Schweiz"
+        };
+
+        // Ergebnisse für jede Option mit zugehörigen URLs
+        const ergebnisse = {
+            "option1": [
+            { text: "An Improved World", url: "https://www.geoguessr.com/maps/5b0a80f8596695b708122809" },{ text: "AI Generated World", url: "https://www.geoguessr.com/maps/5dbaf08ed0d2a478444d2e8e" },{ text: "An Arbitrary World", url: "https://www.geoguessr.com/maps/6089bfcff6a0770001f645dd" },{ text: "A Community World", url: "https://www.geoguessr.com/maps/62a44b22040f04bd36e8a914" },
+                { text: "An Official World", url: "https://www.geoguessr.com/maps/652ba0d9002aa0d36f996153" },{ text: "An Arbitrary Rural World", url: "https://www.geoguessr.com/maps/643dbc7ccc47d3a344307998" },{ text: "A Varied World", url: "https://www.geoguessr.com/maps/64ce812adc7614680516ff8c" },{ text: "A Pro World", url: "https://www.geoguessr.com/maps/6620b311f64a7b842b2ca83a" }
+            ],
+            "option2": [
+                { text: "An Improved World", url: "https://www.geoguessr.com/maps/5b0a80f8596695b708122809" },{ text: "A Balanced World", url: "https://www.geoguessr.com/maps/5d73f83d82777cb5781464f2" },{ text: "AI Generated World", url: "https://www.geoguessr.com/maps/5dbaf08ed0d2a478444d2e8e" },{ text: "An Arbitrary World", url: "https://www.geoguessr.com/maps/6089bfcff6a0770001f645dd" },{ text: "AI Populated World", url: "https://www.geoguessr.com/maps/61f1cafb52502d0001a9a5b6" },{ text: "A Stochastic Populated World", url: "https://www.geoguessr.com/maps/61f5026376f7be0001e1eb84" },{ text: "A Community World", url: "https://www.geoguessr.com/maps/62a44b22040f04bd36e8a914" },{ text: "GeoTime", url: "https://www.geoguessr.com/maps/63c23ec9563ddfcf1b8cd67e" },{ text: "A Varied World", url: "https://www.geoguessr.com/maps/64ce812adc7614680516ff8c" },
+                { text: "An Official World", url: "https://www.geoguessr.com/maps/652ba0d9002aa0d36f996153" },{ text: "A Chatguessr World", url: "https://www.geoguessr.com/maps/659feab6c661e2774c442516" },{ text: "A Rural World", url: "https://www.geoguessr.com/maps/5be0de51fe3a84037ca36447" },{ text: "An Arbitrary Rural World", url: "https://www.geoguessr.com/maps/643dbc7ccc47d3a344307998" },{ text: "Dirty World", url: "https://www.geoguessr.com/maps/63f3ff1e0355e40ded075e0c" },{ text: "Terminus", url: "https://www.geoguessr.com/maps/64919f3c95165ff26469091a" },{ text: "A Skewed World", url: "https://www.geoguessr.com/maps/6165f7176c26ac00016bca3d" },{ text: "A Tweaked World", url: "https://www.geoguessr.com/maps/64205c50e014cf9bb1a04e01" },{ text: "A Pinpointable World", url: "https://www.geoguessr.com/maps/6029991c5048850001d572a9" },
+                { text: "An Extraordinary World", url: "https://www.geoguessr.com/maps/5cd30a0d17e6fc441ceda867" },{ text: "A Curated Planet", url: "https://www.geoguessr.com/maps/642a97be3c5b7968a1eb1af3" },{ text: "Skyworld", url: "https://www.geoguessr.com/maps/64fb26975633266f967b1c98" },{ text: "A Rainbolt World", url: "https://www.geoguessr.com/maps/65c86935d327035509fd616f" },{ text: "Less-Extreme Regionguessing", url: "https://www.geoguessr.com/maps/658a3ef12255cca9e7f39c06" },{ text: "Extreme Regionguessing", url: "https://www.geoguessr.com/maps/63cfd5ba9512ebc734807d3d" },{ text: "Plonk It Extreme", url: "https://www.geoguessr.com/maps/63b9865cbb7d2fa004826bbc" },{ text: "A Pro World", url: "https://www.geoguessr.com/maps/6620b311f64a7b842b2ca83a" },{ text: "World coast, lakes and rivers", url: "https://www.geoguessr.com/maps/661a6a604c5227e35dad856c" },{ text: "Geoguessr Saturday", url: "https://www.geoguessr.com/maps/661ecb894e20c3a560ef26eb" },{ text: "Superflat", url: "https://www.geoguessr.com/maps/64ff34c5314b1d0db16e24bf" }
+            ],
+            "option3": [
+                { text: "A Balanced Germanosphere", url: "https://www.geoguessr.com/maps/6602bfb97503e446191364c2" },
+                { text: "A Community Germany", url: "https://www.geoguessr.com/maps/64efee86bf3812caa0647e9d" },{ text: "A Balanced Germany", url: "https://www.geoguessr.com/maps/617d2526ed0f750001c24b21" },
+                { text: "A Balanced Austria", url: "https://www.geoguessr.com/maps/639dd16256418a9903a7b61b" },{ text: "Intersectionguessr Austria", url: "https://www.geoguessr.com/maps/6294a76cf6507e6b8d920280" },
+                { text: "Geotime Switzerland", url: "https://www.geoguessr.com/maps/64284a05d2209c876eb65435" }, { text: "Intersectionguessr Switzerland", url: "https://www.geoguessr.com/maps/612cf0736033f40001dea3b8" },
+                { text: "IntersectionGuessr - Liechtenstein", url:"https://www.geoguessr.com/maps/66fb7d64a75091adc393f469"}  
+            ],
+            "option4": [
+                { text: "USA", url: "https://www.geoguessr.com/maps/61dfb63654e4730001e8faf5" }, { text: "Russia", url: "https://www.geoguessr.com/maps/645fee824b5a2a4652553378" }, { text: "Brazil", url: "https://www.geoguessr.com/maps/61df8477a94f5d0001ef9f2c" }, { text: "Indonesia", url: "https://www.geoguessr.com/maps/619086606e5572000185a1db" }, 
+                { text: "Australia", url: "https://www.geoguessr.com/maps/60afb9b2dcdbe60001438fa6" }, { text: "Mexico", url: "https://www.geoguessr.com/maps/63382d2cc00816fde6cd69b6" }, { text: "Canada", url: "https://www.geoguessr.com/maps/61067f9608061c000157a851" }, { text: "India", url: "https://www.geoguessr.com/maps/62e10035c97fc44e29bd8e0e" }  
+            ],
+            "option5": [
+                { text: "USA", url: "https://www.geoguessr.com/maps/61dfb63654e4730001e8faf5" }, { text: "Russia", url: "https://www.geoguessr.com/maps/645fee824b5a2a4652553378" }, { text: "Brazil", url: "https://www.geoguessr.com/maps/61df8477a94f5d0001ef9f2c" }, { text: "Indonesia", url: "https://www.geoguessr.com/maps/619086606e5572000185a1db" }, { text: "Australia", url: "https://www.geoguessr.com/maps/60afb9b2dcdbe60001438fa6" }, { text: "Mexico", url: "https://www.geoguessr.com/maps/63382d2cc00816fde6cd69b6" }, { text: "Canada", url: "https://www.geoguessr.com/maps/61067f9608061c000157a851" }, { text: "India", url: "https://www.geoguessr.com/maps/62e10035c97fc44e29bd8e0e" },
+                { text: "Argentina", url: "https://www.geoguessr.com/maps/62af3a91e924b273d60d6c1e" }, { text: "South Africa", url: "https://www.geoguessr.com/maps/663d5ea93e1f20f3d481ae6a" }, { text: "Japan", url: "https://www.geoguessr.com/maps/63e5ecc3ca384c72d0bd9bc4" }, { text: "Türkiye", url: "https://www.geoguessr.com/maps/61fb2314990720000141ecc9" }, { text: "Peru", url: "https://www.geoguessr.com/maps/63a19846051146bc39df1e3d" }, { text: "France", url: "https://www.geoguessr.com/maps/6383cdd0be0d9b60a5ab2e5d" }, { text: "Spain", url: "https://www.geoguessr.com/maps/62f439cfe46df79befe5c5f8" }, { text: "Chile", url: "https://www.geoguessr.com/maps/6430f6ae803b91d398056286" }, 
+                { text: "Colombia", url: "https://www.geoguessr.com/maps/63c0a65c985b2d9d2425c6a1" }, { text: "Kazakhstan", url: "https://www.geoguessr.com/maps/65fdf289c30c9fd6a9f6d288" }, { text: "Thailand", url: "https://www.geoguessr.com/maps/638777aabd4e538d5e52d4f9" }, { text: "New Zealand", url: "https://www.geoguessr.com/maps/61f3f49330ad7100010d56c2" }, { text: "Philippines", url: "https://www.geoguessr.com/maps/64f4959080229b9a3d429041" }, { text: "Nigeria", url: "https://www.geoguessr.com/maps/6622b6818f0387d6bd5990c5" }, { text: "Norway", url: "https://www.geoguessr.com/maps/6256b73b244c43c4448b6e45" }, { text: "Italy", url: "https://www.geoguessr.com/maps/63e40449e42ff95dc1d652ae" }, 
+                { text: "Malaysia", url: "https://www.geoguessr.com/maps/634050c7fc09dbb1e6c107c6" }, { text: "United Kingdom", url: "https://www.geoguessr.com/maps/5ba862d12c0173524cd9327a" }, { text: "Kenya", url: "https://www.geoguessr.com/maps/62e3030f980e305acf50cb21" }, { text: "Germany", url: "https://www.geoguessr.com/maps/617d2526ed0f750001c24b21" }, { text: "Sweden", url: "https://www.geoguessr.com/maps/63161cf3f3120c7c32110ae4" }, { text: "Ukraine", url: "https://www.geoguessr.com/maps/65d8c274811075137ed28c01" }, { text: "Romania", url: "https://www.geoguessr.com/maps/63e125c558300fd915d01c68" }  
+            ],
+            "option6": [
+                { text: "Iceland", url: "https://www.geoguessr.com/maps/657b18de4c71cabffd80eeab" }, { text: "Canada", url: "https://www.geoguessr.com/maps/61067f9608061c000157a851" }, { text: "USA", url: "https://www.geoguessr.com/maps/61dfb63654e4730001e8faf5" }, { text: "Mexico", url: "https://www.geoguessr.com/maps/63382d2cc00816fde6cd69b6" }, { text: "Guatemala", url: "https://www.geoguessr.com/maps/61dcfc18c7dbc10001e4874e" }, { text: "Panama", url: "https://www.geoguessr.com/maps/65161a37377228d88a008ba5" }, { text: "Colombia", url: "https://www.geoguessr.com/maps/63c0a65c985b2d9d2425c6a1" }, { text: "Ecuador", url: "https://www.geoguessr.com/maps/631ceb92f65b075dfbe51a1a" }, { text: "Peru", url: "https://www.geoguessr.com/maps/63a19846051146bc39df1e3d" }, { text: "Bolivia", url: "https://www.geoguessr.com/maps/642d6e2e0b7bbe7e4a4b939b" }, { text: "Chile", url: "https://www.geoguessr.com/maps/6430f6ae803b91d398056286" }, { text: "Brazil", url: "https://www.geoguessr.com/maps/61df8477a94f5d0001ef9f2c" }, { text: "Argentina", url: "https://www.geoguessr.com/maps/62af3a91e924b273d60d6c1e" }, { text: "Uruguay", url: "https://www.geoguessr.com/maps/639f85acab6e2cee0ce4962c" }, 
+                { text: "Senegal", url: "https://www.geoguessr.com/maps/63e3062fa32d03a8402c11a0" }, { text: "Ghana", url: "https://www.geoguessr.com/maps/63e4cbaddb7bd1dae556ba55" }, { text: "Nigeria", url: "https://www.geoguessr.com/maps/6622b6818f0387d6bd5990c5" }, { text: "Tunisia", url: "https://www.geoguessr.com/maps/63a625bafa09549be2197702" }, { text: "Kenya", url: "https://www.geoguessr.com/maps/62e3030f980e305acf50cb21" }, { text: "Ruanda", url: "https://www.geoguessr.com/maps/65832452fd6dcafd52b68b1a" }, { text: "Botswana", url: "https://www.geoguessr.com/maps/6695263987231dba5885861a" }, { text: "South Africa", url: "https://www.geoguessr.com/maps/663d5ea93e1f20f3d481ae6a" }, { text: "Swasiland", url: "https://www.geoguessr.com/maps/64446112d07ba3f7ae829b44" }, { text: "Lesotho", url: "https://www.geoguessr.com/maps/63d9a9fdc062831649aed5cb" }, 
+                { text: "Israel", url: "https://www.geoguessr.com/maps/66109d1a2c45bbfea7079538" }, { text: "Jordan", url: "https://www.geoguessr.com/maps/63a62a05891a5488366d3b85" }, { text: "Türkiye", url: "https://www.geoguessr.com/maps/61fb2314990720000141ecc9" }, { text: "Greece", url: "https://www.geoguessr.com/maps/61eb432d246b94000170922e" }, { text: "Albania", url: "https://www.geoguessr.com/maps/63e1867f36099776e87daf42" }, { text: "Montenegro", url: "https://www.geoguessr.com/maps/631472ab345c30c3691bef52" }, { text: "North Macedonia", url: "https://www.geoguessr.com/maps/66bda1fa7e220d8efc2a7b0b" }, { text: "Bulgaria", url: "https://www.geoguessr.com/maps/6482e2110101a3f3016f10e1" }, { text: "Serbia", url: "https://www.geoguessr.com/maps/6702cd029f1041d08e833a46" }, {text: "Romania", url: "https://www.geoguessr.com/maps/63e125c558300fd915d01c68" }, { text: "Hungary", url: "https://www.geoguessr.com/maps/63d5be536e414d932348f697" }, { text: "Slovenia", url: "https://www.geoguessr.com/maps/662a8b331f18c8dea0afbefb" }, { text: "Croatia", url: "https://www.geoguessr.com/maps/6669b8a2f52cc856ea46ebf8" }, { text: "Italy", url: "https://www.geoguessr.com/maps/63e40449e42ff95dc1d652ae" }, { text: "Spain", url: "https://www.geoguessr.com/maps/62f439cfe46df79befe5c5f8" }, { text: "Portugal", url: "https://www.geoguessr.com/maps/6484b2a40404933187c284b2" }, { text: "France", url: "https://www.geoguessr.com/maps/6383cdd0be0d9b60a5ab2e5d" },
+                { text: "Switzerland", url: "https://www.geoguessr.com/maps/64284a05d2209c876eb65435" }, {text: "Austria", url: "https://www.geoguessr.com/maps/639dd16256418a9903a7b61b" }, { text: "Slovakia", url: "https://www.geoguessr.com/maps/64e493f7d57dc3adc659ed6c" }, { text: "Poland", url: "https://www.geoguessr.com/maps/639012abdb1a28b03ddaf218" }, { text: "Czechia", url: "https://www.geoguessr.com/maps/65f0296d3c6863ff06666cfd" }, { text: "Germany", url: "https://www.geoguessr.com/maps/617d2526ed0f750001c24b21" }, { text: "Netherlands", url: "https://www.geoguessr.com/maps/66c1ce4ca4042c496a00e129" }, { text: "Belgium", url: "https://www.geoguessr.com/maps/64175025b2444890d29cdb57" }, { text: "United Kingdom", url: "https://www.geoguessr.com/maps/5ba862d12c0173524cd9327a" }, { text: "Ireland", url: "https://www.geoguessr.com/maps/63bdb00261473bc17841df33" },
+                {text: "Denmark", url: "https://www.geoguessr.com/maps/63345d27d0720ab88f7e1b8e" }, { text: "Norway", url: "https://www.geoguessr.com/maps/6256b73b244c43c4448b6e45" }, { text: "Sweden", url: "https://www.geoguessr.com/maps/63161cf3f3120c7c32110ae4" }, { text: "Finland", url: "https://www.geoguessr.com/maps/6387d6ccc465a7add9d9aaaf" }, { text: "Estonia", url: "https://www.geoguessr.com/maps/66a64a0b383011ef51de668d" }, { text: "Latvia", url: "https://www.geoguessr.com/maps/6611c8042c45bbfea7090dbb" }, { text: "Lithuania", url: "https://www.geoguessr.com/maps/6619d444cb5707255883e034" }, { text: "Ukraine", url: "https://www.geoguessr.com/maps/65d8c274811075137ed28c01" }, { text: "Russia", url: "https://www.geoguessr.com/maps/645fee824b5a2a4652553378" },  {text: "Luxembourg", url: "https://www.geoguessr.com/maps/66bdf5812e661912d9a7a978" }, 
+                { text: "Kazakhstan", url: "https://www.geoguessr.com/maps/65fdf289c30c9fd6a9f6d288" }, { text: "Mongolia", url: "https://www.geoguessr.com/maps/61f153744f445700019e9bfb" }, { text: "Kyrgyzstan", url: "https://www.geoguessr.com/maps/62f89a5b9d49e9c006de4ed5" }, { text: "India", url: "https://www.geoguessr.com/maps/62e10035c97fc44e29bd8e0e" }, { text: "Bangladesh", url: "https://www.geoguessr.com/maps/63eab302e1526de19905dd8d" }, { text: "Thailand", url: "https://www.geoguessr.com/maps/638777aabd4e538d5e52d4f9" }, { text: "Cambodia", url: "https://www.geoguessr.com/maps/63e10a3d58300fd915d0127b" }, { text: "Malaysia", url: "https://www.geoguessr.com/maps/634050c7fc09dbb1e6c107c6" },  
+                {text: "Indonesia", url: "https://www.geoguessr.com/maps/619086606e5572000185a1db" }, { text: "Philippines", url: "https://www.geoguessr.com/maps/64f4959080229b9a3d429041" }, { text: "Australia", url: "https://www.geoguessr.com/maps/60afb9b2dcdbe60001438fa6" }, { text: "New Zealand", url: "https://www.geoguessr.com/maps/61f3f49330ad7100010d56c2" }, { text: "Taiwan", url: "https://www.geoguessr.com/maps/63f420f9f1482fc046350710" }, { text: "Japan", url: "https://www.geoguessr.com/maps/63e5ecc3ca384c72d0bd9bc4" }, { text: "South Korea", url: "https://www.geoguessr.com/maps/62b36299fa2c6ce9ff5a34b9" }
+            ],
+            "option7": [
+                { text: "A Balanced Germanosphere", url: "https://www.geoguessr.com/maps/6602bfb97503e446191364c2" },{ text: "A Community Germany", url: "https://www.geoguessr.com/maps/64efee86bf3812caa0647e9d" }, { text: "A Balanced Germany", url: "https://www.geoguessr.com/maps/617d2526ed0f750001c24b21" }, { text: "A Balanced Austria", url: "https://www.geoguessr.com/maps/639dd16256418a9903a7b61b" }, { text: "Intersectionguessr Austria", url: "https://www.geoguessr.com/maps/6294a76cf6507e6b8d920280" }, { text: "Geotime Switzerland", url: "https://www.geoguessr.com/maps/64284a05d2209c876eb65435" }, { text: "Intersectionguessr Switzerland", url: "https://www.geoguessr.com/maps/612cf0736033f40001dea3b8" },  
+                { text: "Schleswig-Holstein", url: "https://www.geoguessr.com/maps/65959c73a95179a1ccc6cdb7" }, { text: "Hamburg", url: "https://www.geoguessr.com/maps/659716ab5a3a8058292cff0e" }, { text: "Niedersachsen", url: "https://www.geoguessr.com/maps/6595dab2692d87091a6dff87" }, { text: "Bremen", url: "https://www.geoguessr.com/maps/65970c0e234134853362b455" }, { text: "Mecklenburg-Vorpommern", url: "https://www.geoguessr.com/maps/6595982417360fe0d27f1131" }, { text: "Brandenburg", url: "https://www.geoguessr.com/maps/65958d455576dc5391f1ccb8" }, { text: "Berlin", url: "https://www.geoguessr.com/maps/64dd17800f64492a144bbb40" }, { text: "Sachsen-Anhalt", url: "https://www.geoguessr.com/maps/659714780a752feb8ddf694e" }, { text: "Sachsen", url: "https://www.geoguessr.com/maps/65959eadd95b74255b19bb4c" }, { text: "Thüringen", url: "https://www.geoguessr.com/maps/659711ef5a3a8058292cf90f" }, { text: "Hessen", url: "https://www.geoguessr.com/maps/6595e2f8d95b74255b1a09e6" }, { text: "Nordrhein-Westfalen", url: "https://www.geoguessr.com/maps/659708caa012abdbf7503434" }, { text: "Rheinland-Pfalz", url: "https://www.geoguessr.com/maps/65970f529235d8a32e125dbc" }, { text: "Saarland", url: "https://www.geoguessr.com/maps/6596fe663c578ea6a3796e8d" },{ text: "Baden-Würtemberg", url: "https://www.geoguessr.com/maps/6596f23ea012abdbf75019b9" },{ text: "Bayern", url: "https://www.geoguessr.com/maps/6596c3e8eb4579dcb691d512" }, 
+                { text: "Vorarlberg", url: "https://www.geoguessr.com/maps/65a6ed38ff1043a4408fd551" }, { text: "Tirol", url: "https://www.geoguessr.com/maps/65a6ecdcfd23dbefa5fcad7c" }, { text: "Salzburg", url: "https://www.geoguessr.com/maps/65a6eb32012e371eda8f13db" }, { text: "Steiermark", url: "https://www.geoguessr.com/maps/65a6ec313509435083fd4133" }, { text: "Kärnten", url: "https://www.geoguessr.com/maps/65a6e86c8a230b43bbc33e3d" }, { text: "Burgenland", url: "https://www.geoguessr.com/maps/65a6dd3c2a202e741455ddf0" }, { text: "Oberösterreich", url: "https://www.geoguessr.com/maps/65a6ea21ac56ac0d27b0b108" }, { text: "Niederösterreich", url: "https://www.geoguessr.com/maps/65a6e8ec982033c2b4cb5c24" }, { text: "Wien", url: "https://www.geoguessr.com/maps/65a6eda43509435083fd4371" },
+                { text: "Zürich", url: "https://www.geoguessr.com/maps/665d7f95cf204bd3ed40cd50" }, { text: "Bern", url: "https://www.geoguessr.com/maps/665cd8c1fd64298cf7d0246a" }, { text: "Luzern", url: "https://www.geoguessr.com/maps/665d7cfff33fde70bd0d8bfa" }, { text: "Uri", url: "https://www.geoguessr.com/maps/665d7ee93a13d962ba9f2c7e" }, { text: "Schwyz", url: "https://www.geoguessr.com/maps/665d7dfe423f06c0fa1426e3" }, { text: "Obwalden", url: "https://www.geoguessr.com/maps/665d7d9380305b30aae831f0" }, { text: "Nidwalden", url: "https://www.geoguessr.com/maps/665d7d645169ac70c4dc3d50" }, { text: "Glarus", url: "https://www.geoguessr.com/maps/665d7c3acf204bd3ed40c7f1" }, { text: "Zug", url: "https://www.geoguessr.com/maps/665d7f6ca75496d095a8643f" }, { text: "Solothurn", url: "https://www.geoguessr.com/maps/665d7e27a75496d095a8629f" }, { text: "Basel-Stadt", url: "https://www.geoguessr.com/maps/665d7b4de857cea1b3496d90" }, { text: "Basel-Landschaft", url: "https://www.geoguessr.com/maps/665d7b09a75496d095a85e0b" }, { text: "Schaffhausen", url: "https://www.geoguessr.com/maps/665d7dbf80305b30aae83234" },
+                { text: "Appenzell Ausserrhoden", url: "https://www.geoguessr.com/maps/665d7ac3a75496d095a85da0" }, { text: "Appenzell Innerrhoden", url: "https://www.geoguessr.com/maps/665d7a40bf5c13127edb618f" }, { text: "St. Gallen", url: "https://www.geoguessr.com/maps/665d7e648c652860392a363e" }, { text: "Graubünden", url: "https://www.geoguessr.com/maps/665d7c99f4191410581bca6b" }, { text: "Aargau", url: "https://www.geoguessr.com/maps/665cd226ed72f80c0f4a9887" }, { text: "Thurgau", url: "https://www.geoguessr.com/maps/665d7e8bf33fde70bd0d8e82" },  
+                { text: "Südtirol", url: "https://www.geoguessr.com/maps/6659d06ad36a100cdb3b77f6" }, { text: "Ostbelgien", url: "https://www.geoguessr.com/maps/6659df40605d765499e0b503" },{ text: "IntersectionGuessr - Liechtenstein", url:"https://www.geoguessr.com/maps/66fb7d64a75091adc393f469"}  
+            ],  
+            "option8": [
+                { text: "A Community Germany", url: "https://www.geoguessr.com/maps/64efee86bf3812caa0647e9d" }, { text: "A Balanced Germany", url: "https://www.geoguessr.com/maps/617d2526ed0f750001c24b21" }, { text: "Schleswig-Holstein", url: "https://www.geoguessr.com/maps/65959c73a95179a1ccc6cdb7" }, { text: "Hamburg", url: "https://www.geoguessr.com/maps/659716ab5a3a8058292cff0e" }, { text: "Niedersachsen", url: "https://www.geoguessr.com/maps/6595dab2692d87091a6dff87" }, { text: "Bremen", url: "https://www.geoguessr.com/maps/65970c0e234134853362b455" }, { text: "Mecklenburg-Vorpommern", url: "https://www.geoguessr.com/maps/6595982417360fe0d27f1131" }, 
+                { text: "Brandenburg", url: "https://www.geoguessr.com/maps/65958d455576dc5391f1ccb8" }, { text: "Berlin", url: "https://www.geoguessr.com/maps/64dd17800f64492a144bbb40" }, { text: "Sachsen-Anhalt", url: "https://www.geoguessr.com/maps/659714780a752feb8ddf694e" }, { text: "Sachsen", url: "https://www.geoguessr.com/maps/65959eadd95b74255b19bb4c" }, { text: "Thüringen", url: "https://www.geoguessr.com/maps/659711ef5a3a8058292cf90f" }, { text: "Hessen", url: "https://www.geoguessr.com/maps/6595e2f8d95b74255b1a09e6" }, 
+                 { text: "Nordrhein-Westfalen", url: "https://www.geoguessr.com/maps/659708caa012abdbf7503434" }, { text: "Rheinland-Pfalz", url: "https://www.geoguessr.com/maps/65970f529235d8a32e125dbc" }, { text: "Saarland", url: "https://www.geoguessr.com/maps/6596fe663c578ea6a3796e8d" },{ text: "Baden-Würtemberg", url: "https://www.geoguessr.com/maps/6596f23ea012abdbf75019b9" },{ text: "Bayern", url: "https://www.geoguessr.com/maps/6596c3e8eb4579dcb691d512" }    
+            ],
+            "option9": [
+                { text: "A Balanced Austria", url: "https://www.geoguessr.com/maps/639dd16256418a9903a7b61b" }, { text: "Intersectionguessr Austria", url: "https://www.geoguessr.com/maps/6294a76cf6507e6b8d920280" }, { text: "Vorarlberg", url: "https://www.geoguessr.com/maps/65a6ed38ff1043a4408fd551" }, { text: "Tirol", url: "https://www.geoguessr.com/maps/65a6ecdcfd23dbefa5fcad7c" }, { text: "Salzburg", url: "https://www.geoguessr.com/maps/65a6eb32012e371eda8f13db" }, { text: "Steiermark", url: "https://www.geoguessr.com/maps/65a6ec313509435083fd4133" }, 
+                { text: "Kärnten", url: "https://www.geoguessr.com/maps/65a6e86c8a230b43bbc33e3d" }, { text: "Burgenland", url: "https://www.geoguessr.com/maps/65a6dd3c2a202e741455ddf0" }, { text: "Oberösterreich", url: "https://www.geoguessr.com/maps/65a6ea21ac56ac0d27b0b108" }, { text: "Niederösterreich", url: "https://www.geoguessr.com/maps/65a6e8ec982033c2b4cb5c24" }, { text: "Wien", url: "https://www.geoguessr.com/maps/65a6eda43509435083fd4371" }
+            ],
+            "option10": [
+                { text: "Geotime Switzerland", url: "https://www.geoguessr.com/maps/64284a05d2209c876eb65435" }, { text: "Intersectionguessr Switzerland", url: "https://www.geoguessr.com/maps/612cf0736033f40001dea3b8" }, { text: "Zürich", url: "https://www.geoguessr.com/maps/665d7f95cf204bd3ed40cd50" }, { text: "Bern", url: "https://www.geoguessr.com/maps/665cd8c1fd64298cf7d0246a" }, { text: "Luzern", url: "https://www.geoguessr.com/maps/665d7cfff33fde70bd0d8bfa" }, { text: "Uri", url: "https://www.geoguessr.com/maps/665d7ee93a13d962ba9f2c7e" }, { text: "Schwyz", url: "https://www.geoguessr.com/maps/665d7dfe423f06c0fa1426e3" }, 
+                { text: "Obwalden", url: "https://www.geoguessr.com/maps/665d7d9380305b30aae831f0" }, { text: "Nidwalden", url: "https://www.geoguessr.com/maps/665d7d645169ac70c4dc3d50" }, { text: "Glarus", url: "https://www.geoguessr.com/maps/665d7c3acf204bd3ed40c7f1" }, { text: "Zug", url: "https://www.geoguessr.com/maps/665d7f6ca75496d095a8643f" }, { text: "Solothurn", url: "https://www.geoguessr.com/maps/665d7e27a75496d095a8629f" }, { text: "Basel-Stadt", url: "https://www.geoguessr.com/maps/665d7b4de857cea1b3496d90" }, { text: "Basel-Landschaft", url: "https://www.geoguessr.com/maps/665d7b09a75496d095a85e0b" }, { text: "Schaffhausen", url: "https://www.geoguessr.com/maps/665d7dbf80305b30aae83234" },
+                { text: "Appenzell Ausserrhoden", url: "https://www.geoguessr.com/maps/665d7ac3a75496d095a85da0" }, { text: "Appenzell Innerrhoden", url: "https://www.geoguessr.com/maps/665d7a40bf5c13127edb618f" }, { text: "St. Gallen", url: "https://www.geoguessr.com/maps/665d7e648c652860392a363e" }, { text: "Graubünden", url: "https://www.geoguessr.com/maps/665d7c99f4191410581bca6b" }, { text: "Aargau", url: "https://www.geoguessr.com/maps/665cd226ed72f80c0f4a9887" }, { text: "Thurgau", url: "https://www.geoguessr.com/maps/665d7e8bf33fde70bd0d8e82" } 
+            ]
+        };
+
+        // Zweites Array mit zusätzlichen Ergebnissen (ohne Hyperlinks)
+        const extraErgebnisse = {
+            "option1": [{ text: "Moving" },{ text: "NM" },{ text: "NMPZ" }],
+            "option2": [{ text: "Moving" },{ text: "NM" },{ text: "NMPZ" }],
+            "option3": [{ text: "Moving" },{ text: "NM" },{ text: "NMPZ" }],
+            "option4": [{ text: "Moving" },{ text: "NM" },{ text: "NMPZ" }],
+            "option5": [{ text: "Moving" },{ text: "NM" },{ text: "NMPZ" }],
+            "option6": [{ text: "Moving" },{ text: "NM" },{ text: "NMPZ" }],
+            "option7": [{ text: "Moving" },{ text: "NM" },{ text: "NMPZ" }],
+            "option8": [{ text: "Moving" },{ text: "NM" },{ text: "NMPZ" }],
+            "option9": [{ text: "Moving" },{ text: "NM" },{ text: "NMPZ" }],
+            "option10": [{ text: "Moving" },{ text: "NM" },{ text: "NMPZ" }]
+        };
+
+         // Funktion zur Aktualisierung der Anzahl-Eingabefelder
+         function updateAnzahlInputs() {
+            const checkboxes = document.querySelectorAll('.option-checkbox');
+            const selectedOptions = Array.from(checkboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+            const anzahlContainer = document.getElementById('anzahlContainer');
+
+            // Löschen der bisherigen Eingabefelder
+            anzahlContainer.innerHTML = '';
+
+            // Erstelle ein Eingabefeld für jede ausgewählte Option
+            selectedOptions.forEach(option => {
+                const label = document.createElement('label');
+                label.textContent = `Anzahl der benötigten Maps für ${optionNamen[option]}:`;
+
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.id = `anzahl_${option}`;
+                input.value = 1;
+                input.min = 1;
+                input.max = 7;
+                input.className = 'anzahl-eingabe';
+
+                anzahlContainer.appendChild(label);
+                anzahlContainer.appendChild(input);
+                anzahlContainer.appendChild(document.createElement('br'));
+            });
+        }
+
+        // Funktion zum Mischen der Ergebnisse (Fisher-Yates-Algorithmus)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // Swap
+            }
+        }
+
+        function getRandomResult() {
+            const checkboxes = document.querySelectorAll('.option-checkbox');
+            const selectedOptions = Array.from(checkboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+
+            if (selectedOptions.length === 0) {
+                document.getElementById('ergebnis').textContent = "Bitte wähle mindestens eine Option aus!";
+                return;
+            }
+
+            const extraChecked = document.getElementById('extraErgebnis').checked;
+            let finalResults = [];
+
+            // Ergebnisse sammeln
+            selectedOptions.forEach(option => {
+                const anzahlErgebnisse = parseInt(document.getElementById(`anzahl_${option}`).value);
+
+                for (let i = 0; i < anzahlErgebnisse; i++) {
+                    let result = ergebnisse[option][Math.floor(Math.random() * ergebnisse[option].length)];
+
+                    // Falls zusätzliche Ergebnisse aktiviert sind, fügen wir diese hinzu
+                    if (extraChecked) {
+                        const extraResult = extraErgebnisse[option][Math.floor(Math.random() * extraErgebnisse[option].length)];
+                        result = { 
+                            text: `${result.text}`, // Nur das Haupt-Ergebnis hat einen Link
+                            extra: `${extraResult.text}`,  // Extra-Ergebnis ist separat
+                            url: result.url 
+                        };
+                    } else {
+                        result = { 
+                            text: result.text, 
+                            url: result.url 
+                        };
+                    }
+
+                    finalResults.push(result);
+                }
+            });
+
+            // Ergebnisse mischen
+            shuffleArray(finalResults);
+
+            // Anzeigen der Ergebnisse mit oder ohne Hyperlink basierend auf der Option
+            let resultText = "";//Zufällige Ergebnisse in zufälliger Reihenfolge:\n
+            finalResults.forEach((result, index) => {
+                // Hyperlinks für option1, option2 und option3 anzeigen
+                if (result.url && (selectedOptions.includes("option1") || selectedOptions.includes("option2") || selectedOptions.includes("option3")|| selectedOptions.includes("option4")|| selectedOptions.includes("option5")||selectedOptions.includes("option6")||selectedOptions.includes("option7")|| selectedOptions.includes("option8")|| selectedOptions.includes("option9")|| selectedOptions.includes("option10"))) {
+                    resultText += `Map ${index + 1}: <a href="${result.url}" target="_blank">${result.text}</a>`;
+                } else {
+                    resultText += `Map ${index + 1}: ${result.text}`;
+                }
+
+                // Falls es ein zusätzliches Ergebnis gibt, wird dieses nach dem Haupt-Ergebnis hinzugefügt
+                if (result.extra) {
+                    resultText += ` (${result.extra})`;
+                }
+
+                resultText += `<br>`; // Zeilenumbruch für das nächste Ergebnis
+            });
+
+            document.getElementById('ergebnis').innerHTML = resultText;  // .innerHTML, um HTML zu rendern
+        }
+    </script>
+</body>
+</html>
+
+

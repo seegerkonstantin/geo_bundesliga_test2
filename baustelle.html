@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baustelle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Verdana, sans-serif;
+            background: linear-gradient(to bottom right, #1c1e4a, #74215d);
+            background-size: cover; /* Ensures the gradient covers the entire background */
+            background-repeat: no-repeat; /* Prevents the gradient from repeating */
+            min-height: 100vh;
+            overflow-y: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center; /* Horizontal zentrieren */
+            align-items: center;     /* Vertikal zentrieren */
+            height: 100vh;           /* Die Höhe auf den gesamten Viewport setzen */
+        }
+
+        img {
+            width: 400px;  /* Feste Breite des Bildes */
+            height: auto;  /* Automatische Höhe, um das Seitenverhältnis zu bewahren */
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: #2a2c6b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 16px;
+            border: 2px solid white;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #74215d;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Back button -->
+    <button class="back-button" onclick="window.location.href='index.html';">Start</button>
+
+    <div class="container">
+        <img id="randomImage" alt="Random Image" />
+    </div>
+
+    <script>
+        // Array mit den Bildnamen im Ordner 'images'
+        const imageArray = [
+            "maulwurf1.jpg",
+            "maulwurf2.jpg",
+            "maulwurf3.jpg",
+            "maulwurf5.jpg",
+            "maulwurf6.jpg",
+            "maulwurf7.jpg",
+            "maulwurf9.jpg",
+            "maulwurf10.jpg",
+            "maulwurf11.jpg",
+            "maulwurf12.jpg",
+            "maulwurf13.jpg",
+            "maulwurf14.jpg",
+            "maulwurf16.jpg",
+            "maulwurf17.jpg",
+            "maulwurf18.jpg",
+            "maulwurf19.jpg",
+            "maulwurf20.jpg",
+            "maulwurf21.jpg",
+            "maulwurf22.jpg",
+            "maulwurf23.jpg",
+            "maulwurf24.jpg",
+            "maulwurf25.jpg",
+            "maulwurf26.jpg",
+            "maulwurf27.jpg",
+            "maulwurrf15.jpg"
+        ];
+
+        // Wähle ein zufälliges Bild aus dem Array
+        function getRandomImage() {
+            const randomIndex = Math.floor(Math.random() * imageArray.length);
+            console.log(imageArray[randomIndex]);
+            return 'pics/maluwurf/' + imageArray[randomIndex];
+        }
+
+        // Zeige das zufällig ausgewählte Bild an
+        window.onload = function() {
+            const imgElement = document.getElementById('randomImage');
+            imgElement.src = getRandomImage();
+        };
+    </script>
+</body>
+</html>
