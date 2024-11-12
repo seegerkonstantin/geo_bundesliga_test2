@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drei Tabellen aus CSV-Dateien nebeneinander</title>
+  <link rel="stylesheet" href="discordStyle.css">
+  <style>
+    /* Flexbox-Container für die Tabellen nebeneinander */
+    .table-container {
+      display: flex;
+      gap: 20px; /* Abstand zwischen den Tabellen */
+      justify-content: space-around; /* Gleichmäßige Verteilung */
+    }
+
+    /* Back Button */
+    .back-button {
+      display: inline-block;
+      background-color: #2a2c6b;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 16px;
+      border: 2px solid white;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .back-button:hover {
+      background-color: #74215d;
+      color: white;
+    }
+        
+    .back-button:visited {
+      color: white;
+    }  
+
+    /* Stil für die Überschriften über den Tabellen */
+    .table-title {
+      color: #ffffff; /* Grünliche Farbe für die Überschrift */
+      text-align: center;
+      font-size: 1.2em;
+      margin-bottom: 8px; /* Abstand zwischen Überschrift und Tabelle */
+    }
+    
+  </style>
+</head>
+<body>
+
+  <!-- Back button -->
+  <a class="back-button" href="../index.html">Start</a>  
+
+<header>
+  <h1>Discord Namen</h1>
+  
+  <!-- Flex-Container für die Tabellen -->
+  <div class="table-container">
+    <!-- Tabelle 1 -->
+    <div>
+      <h2 class="table-title">Liga 1</h2>
+      <table id="data-table-1">
+        <thead>
+          <tr id="table-header-1"></tr>
+        </thead>
+        <tbody id="table-body-1"></tbody>
+      </table>
+    </div>
+
+    <!-- Tabelle 2 -->
+    <div>
+      <h2 class="table-title">Liga 2</h2>
+      <table id="data-table-2">
+        <thead>
+          <tr id="table-header-2"></tr>
+        </thead>
+        <tbody id="table-body-2"></tbody>
+      </table>
+    </div>
+
+    <!-- Tabelle 3 -->
+    <div>
+      <h2 class="table-title">Liga 3</h2>
+      <table id="data-table-3">
+        <thead>
+          <tr id="table-header-3"></tr>
+        </thead>
+        <tbody id="table-body-3"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Funktion zum Laden und Darstellen einer CSV-Datei in einer bestimmten Tabelle
+    async function loadCSV(csvFilePath, headerId, bodyId) {
+      try {
+        const response = await fetch(csvFilePath);
+        if (!response.ok) {
+          throw new Error(`Fehler beim Laden der CSV-Datei: ${response.statusText}`);
+        }
+        const csvText = await response.text();
+        const rows = csvText.trim().split('\n').map(row => row.split(';'));
+
+        const headerRow = rows[0];
+        const tableHeader = document.getElementById(headerId);
+        const tableBody = document.getElementById(bodyId);
+
+        // Tabellenkopf füllen
+        headerRow.forEach(headerText => {
+          const th = document.createElement('th');
+          th.textContent = headerText;
+          tableHeader.appendChild(th);
+        });
+
+        // Tabellenkörper füllen
+        rows.slice(1).forEach(rowData => {
+          const row = document.createElement('tr');
+          rowData.forEach(cellData => {
+            const td = document.createElement('td');
+            td.textContent = cellData;
+            row.appendChild(td);
+          });
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Fehler beim Verarbeiten der CSV-Daten:', error);
+      }
+    }
+
+    // Drei CSV-Dateien laden und jeweils in einer separaten Tabelle anzeigen
+    loadCSV('discord_namen_liga1.csv', 'table-header-1', 'table-body-1');
+    loadCSV('discord_namen_liga2.csv', 'table-header-2', 'table-body-2');
+    loadCSV('discord_namen_liga3.csv', 'table-header-3', 'table-body-3');
+  </script>
+
+</body>
+</html>

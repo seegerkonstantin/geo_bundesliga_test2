@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Verdana, sans-serif;
+    background: linear-gradient(to bottom right, #1c1e4a, #74215d);
+    min-height: 100vh; /* Stellt sicher, dass es mindestens den Viewport abdeckt */
+    overflow-y: auto; /* Verhindert horizontales Scrollen */
+    margin: 20px;
+    padding: 0;
+    max-height: 300px;
+}
+
+header {
+    display: flex;
+    flex-direction: column; /* Ermöglicht vertikale Ausrichtung */
+    justify-content: flex-start; /* Startet den Inhalt oben im Header */
+    align-items: center; /* Zentriert die Überschrift und den Button horizontal */
+    padding-top: 20px; /* Fügt etwas Abstand von oben hinzu */
+}
+
+header h1 {
+    background-color: #2a2c6b;
+    padding: 10px;
+    margin-bottom: 40px; /* Abstand nach unten zur Überschrift */
+    border-radius: 8px;
+    color: #fff;
+    font-size: 36px; /* Vergrößert die Schrift */
+    text-align: center; /* Zentriert die Überschrift */
+    display: inline-block; /* Macht den Kasten nur so breit wie der Inhalt */
+    width: 50%; /* Setzt die Breite auf 50% des Containers */
+}
+
+/* Slideshow-Container */
+.slideshow-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    position: relative;
+}
+
+
+/* Verhindere, dass die Tabelle durch Pfeile verschoben wird */
+.match-table {
+    flex-grow: 1;
+    text-align: center;
+}
+
+table {
+    width: 50%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    background-color: white; /* Setzt den Hintergrund der Tabelle auf weiß */
+    table-layout: fixed;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 6px; /* Weniger Padding für schmalere Zellen */
+    text-align: left;
+    overflow: hidden;
+}
+th {
+    background-color: #2f2f7f;
+    color: white;
+}
+
+
+/* Wenn man über ein Spiel hovert, ändert sich der Cursor in die Hand */
+td {
+    cursor: pointer;
+}
+
+tr:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
