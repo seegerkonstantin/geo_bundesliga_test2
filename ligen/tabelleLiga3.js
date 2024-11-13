@@ -1,6 +1,6 @@
 let sheetID = '1rzYKg1Xz4al00i29DRlgo8MHn2mSieFK2Il8Y2VD0fU';
 let spreadsheetLiga3 = 'Spielplan Liga 3';
-let dataRange1 = 'P3:W17';  // Datenbereich für die 3. Liga
+let dataRange1 = 'P3:X17';  // Datenbereich für die 3. Liga
 let URL1 = 'https://docs.google.com/spreadsheets/d/' + sheetID + '/gviz/tq?sheet=' + spreadsheetLiga3 + '&range=' + dataRange1;
 
 let dataRange2 = 'B3:E23'; // Datenbereich für die aktuellen Spiele
@@ -39,7 +39,7 @@ function renderLeagueTable(jsonData) {
     tableBody.innerHTML = ''; // Platzhalter löschen
 
     rows.forEach(row => {
-        let points = row.c[6]?.v || 0; // Punktewert aus der 3. Spalte (Index 2)
+        let points = row.c[8]?.v || 0; // Punktewert aus der 3. Spalte (Index 2)
         points = parseFloat(points).toFixed(2); // Rundet die Punkte auf 2 Nachkommastellen
         
         let newRow = document.createElement('tr');
